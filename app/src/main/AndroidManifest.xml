@@ -13,22 +13,18 @@
         android:theme="@style/Theme.EquilibrareApp"
         tools:targetApi="31">
         <activity
-            android:name=".activities.HasilAnalisis"
-            android:exported="false"
-            android:label="@string/title_activity_hasil_analisis"
-            android:theme="@style/Theme.EquilibrareApp" />
+            android:name=".auth.ui.RegisterActivity"
+            android:exported="false" />
+        <activity
+            android:name=".MainActivity"
+            android:exported="false" />
         <activity
             android:name=".fragments.HasilAnalisis"
             android:exported="false"
             android:label="@string/title_activity_hasil_analisis"
             android:theme="@style/Theme.EquilibrareApp" />
         <activity
-            android:name=".HasilAnalisis"
-            android:exported="false"
-            android:label="@string/title_activity_hasil_analisis"
-            android:theme="@style/Theme.EquilibrareApp" />
-        <activity
-            android:name=".MainActivity"
+            android:name=".auth.ui.LoginActivity"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

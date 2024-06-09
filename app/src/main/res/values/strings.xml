@@ -4,4 +4,12 @@
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="title_activity_hasil_analisis">Equilibrare</string>
     <string name="mood_image">Mood Image</string>
+    <string name="email_hint">Email</string>
+    <string name="password_hint">Password</string>
+    <string name="login_hint">LOGIN</string>
+    <string name="username_hint">Username</string>
+    <string name="register_hint">REGISTER</string>
+    <string name="login_google_helper">Or Sign In WIth</string>
+    <string name="register_helper">Don\'t Have An Account?</string>
+    <string name="google">Google</string>
 </resources>
