@@ -2,42 +2,67 @@ package com.example.equilibrareapp.auth.ui
 
 import android.content.Intent
 import android.os.Bundle
-import android.widget.Toast
-import androidx.activity.viewModels
+import android.view.View
 import androidx.appcompat.app.AppCompatActivity
 import com.example.equilibrareapp.MainActivity
-import com.example.equilibrareapp.auth.model.LoginViewModel
 import com.example.equilibrareapp.databinding.ActivityLoginBinding
+import com.example.equilibrareapp.preference.PreferenceHelper
 
 class LoginActivity : AppCompatActivity() {
     private lateinit var binding: ActivityLoginBinding
-    private val loginViewModel: LoginViewModel by viewModels()
+    private lateinit var preferenceHelper: PreferenceHelper
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityLoginBinding.inflate(layoutInflater)
         setContentView(binding.root)
+        supportActionBar?.hide()
+        preferenceHelper = PreferenceHelper(this)
+        setupClickListener()
+    }
 
-        binding.loginViewModel = loginViewModel
-        binding.lifecycleOwner = this
+    private fun setupClickListener() {
+        binding.btnRegister.setOnClickListener {
+            startActivity(Intent(this@LoginActivity, RegisterActivity::class.java))
+        }
 
-        loginViewModel.loginSuccess.observe(this) { success ->
-            if (success) {
-                val intent = Intent(this, MainActivity::class.java)
-                startActivity(intent)
-                finish()
-            } else {
-                Toast.makeText(
-                    this,
-                    "Login gagal. Periksa email dan password Anda.",
-                    Toast.LENGTH_SHORT
-                ).show()
+        binding.btnLogin.setOnClickListener {
+            val email = binding.emailEditText.text.toString()
+            val password = binding.passwordEditText.text.toString()
+            when {
+                email.isEmpty() -> {
+                    binding.emailEditText.error = "Email kosong"
+                }
+
+                !email.contains("@") -> {
+                    binding.emailEditText.error = "Email tidak valid"
+                }
+
+                password.isEmpty() -> {
+                    binding.passwordEditText.error = "Password kosong"
+                }
+
+                else -> {
+                    showLoading(true)
+                    login()
+                }
             }
         }
+    }
 
-        loginViewModel.navigateToRegister.observe(this) {
-            val intent = Intent(this, RegisterActivity::class.java)
-            startActivity(intent)
+    private fun showLoading(isLoading: Boolean) {
+        with(binding) {
+            progressBar.visibility = if (isLoading) View.VISIBLE else View.GONE
+            btnLogin.isEnabled = !isLoading
+            emailEditText.isEnabled = !isLoading
+            passwordEditText.isEnabled = !isLoading
+            btnRegister.isEnabled = !isLoading
         }
+    }
+
+    private fun login() {
+        preferenceHelper.setStatusLogin(true)
+        startActivity(Intent(this@LoginActivity, MainActivity::class.java))
+        finish()
     }
 }
