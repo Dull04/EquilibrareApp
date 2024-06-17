@@ -1,4 +1,4 @@
-package com.example.equilibrareapp
+package com.example.equilibrareapp.preference
 
 import android.content.Context
 import android.content.SharedPreferences

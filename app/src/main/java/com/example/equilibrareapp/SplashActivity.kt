@@ -6,6 +6,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
 import com.example.equilibrareapp.auth.ui.LoginActivity
 import com.example.equilibrareapp.databinding.ActivitySplashBinding
+import com.example.equilibrareapp.preference.PreferenceHelper
 
 class SplashActivity : AppCompatActivity() {
     private lateinit var binding: ActivitySplashBinding
