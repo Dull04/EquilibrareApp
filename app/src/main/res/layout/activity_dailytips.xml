@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:padding="16dp">
+
+    <!-- Title TextView -->
+    <TextView
+        android:id="@+id/titleTextView"
+        android:layout_width="wrap_content"
+        android:layout_marginStart="120dp"
+        android:layout_height="wrap_content"
+        android:layout_alignParentStart="true"
+        android:text="Equilibrare"
+        android:textSize="35sp"
+        android:textStyle="bold"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="16dp" />
+
+
+    <Button
+        android:id="@+id/profileImageView"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:layout_alignParentEnd="true"
+        android:layout_marginTop="20dp"
+        android:layout_marginEnd="16dp"
+        android:background="@drawable/profile_logo" />
+
+
+    <TextView
+        android:id="@+id/welcomeTextView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/titleTextView"
+        android:layout_alignParentStart="true"
+        android:layout_marginTop="8dp"
+        android:layout_marginStart="100dp"
+        android:text="Hi, Welcome Back User!"
+        android:textSize="18sp" />
+
+    <!-- Daily Tips TextView -->
+    <TextView
+        android:id="@+id/dailyTipsTextView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="DAILY TIPS!"
+        android:textSize="18sp"
+        android:textStyle="bold"
+        android:layout_below="@id/welcomeTextView"
+        android:layout_marginTop="32dp"
+        android:layout_centerHorizontal="true" />
+
+
+    <ImageView
+        android:id="@+id/dailyTipsImageView"
+        android:layout_width="300dp"
+        android:layout_height="300dp"
+        android:layout_below="@id/dailyTipsTextView"
+        android:layout_marginTop="16dp"
+        android:layout_centerHorizontal="true"
+        android:background="@drawable/sampleposter" />
+
+
+    <ImageView
+        android:id="@+id/swipeLeftTextView"
+        android:layout_marginTop="70dp"
+        android:layout_width="300dp"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/dailyTipsImageView"
+        android:layout_centerHorizontal="true"
+        android:background="@drawable/swipe"/>
+
+
+</RelativeLayout>
