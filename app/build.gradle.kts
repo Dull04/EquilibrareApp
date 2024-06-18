@@ -26,6 +26,18 @@ android {
             "BASE_API",
             "\"https://api-equilibrare-lxn4knrfca-et.a.run.app\""
         )
+
+        buildConfigField(
+            "String",
+            "NEWS_API",
+            "\"https://newsapi.org/v2\""
+        )
+
+        buildConfigField(
+            "String",
+            "KEY_NEWS",
+            "\"e11198df97c1418392663eba74ce4b41\""
+        )
     }
 
     buildTypes {
