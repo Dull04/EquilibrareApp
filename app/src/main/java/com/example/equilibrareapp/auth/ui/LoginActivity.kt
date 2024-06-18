@@ -2,11 +2,21 @@ package com.example.equilibrareapp.auth.ui
 
 import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import android.view.View
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import com.example.equilibrareapp.MainActivity
 import com.example.equilibrareapp.databinding.ActivityLoginBinding
 import com.example.equilibrareapp.preference.PreferenceHelper
+import com.example.equilibrareapp.service.ApiConfig
+import com.example.equilibrareapp.service.ApiConfig.Companion.getApiService
+import com.example.equilibrareapp.service.LoginEmailResponse
+import com.example.equilibrareapp.service.LoginRequest
+import com.example.equilibrareapp.service.RegisterResponse
+import retrofit2.Call
+import retrofit2.Callback
+import retrofit2.Response
 
 class LoginActivity : AppCompatActivity() {
     private lateinit var binding: ActivityLoginBinding
@@ -44,7 +54,7 @@ class LoginActivity : AppCompatActivity() {
 
                 else -> {
                     showLoading(true)
-                    login()
+                    login(email, password)
                 }
             }
         }
@@ -60,9 +70,52 @@ class LoginActivity : AppCompatActivity() {
         }
     }
 
-    private fun login() {
-        preferenceHelper.setStatusLogin(true)
-        startActivity(Intent(this@LoginActivity, MainActivity::class.java))
-        finish()
+    private fun login(email: String, password: String) {
+
+        val loginRequest = LoginRequest(email, password)
+        val client = getApiService().loginEmail(loginRequest)
+        client.enqueue(object : Callback<LoginEmailResponse> {
+            override fun onResponse(
+                call: Call<LoginEmailResponse>,
+                response: Response<LoginEmailResponse>
+            ) {
+                showLoading(false)
+                if (response.isSuccessful) {
+                    val responseBody = response.body()
+                    if (responseBody != null) {
+                        preferenceHelper.saveUserToken(responseBody.loginResult.idToken.toString())
+                        preferenceHelper.setStatusLogin(true)
+                        Toast.makeText(this@LoginActivity, "Login Berhasil", Toast.LENGTH_SHORT)
+                            .show()
+                        val main = Intent(this@LoginActivity, MainActivity::class.java)
+                        startActivity(main)
+                        finishAffinity()
+                    } else {
+                        Toast.makeText(
+                            this@LoginActivity,
+                            "Login Gagal: ${responseBody?.message ?: "Unknown error"}",
+                            Toast.LENGTH_SHORT
+                        ).show()
+                    }
+                } else {
+                    Toast.makeText(
+                        this@LoginActivity,
+                        "Login Gagal: ${response.message()}",
+                        Toast.LENGTH_SHORT
+                    ).show()
+                }
+            }
+
+            override fun onFailure(call: Call<LoginEmailResponse>, t: Throwable) {
+                showLoading(false)
+                Toast.makeText(this@LoginActivity, "Login Gagal: ${t.message}", Toast.LENGTH_SHORT)
+                    .show()
+                Log.e(TAG, "onFailure: ${t.message}")
+            }
+        })
+    }
+
+    companion object {
+        private const val TAG = "LoginActivity"
     }
 }
