@@ -25,17 +25,17 @@ import java.util.Locale
 class AddNoteFragment : Fragment(R.layout.fragment_add_note), MenuProvider {
 
     private var addNoteBinding: FragmentAddNoteBinding? = null
-    private val binding get() =  addNoteBinding!!
+    private val binding get() = addNoteBinding!!
 
-    private  lateinit var  diaryViewModel: DiaryViewModel
-    private  lateinit var addNoteView: View
+    private lateinit var diaryViewModel: DiaryViewModel
+    private lateinit var addNoteView: View
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
         // Inflate the layout for this fragment
-        addNoteBinding = FragmentAddNoteBinding.inflate(inflater,container, false)
+        addNoteBinding = FragmentAddNoteBinding.inflate(inflater, container, false)
         return binding.root
     }
 
@@ -53,21 +53,22 @@ class AddNoteFragment : Fragment(R.layout.fragment_add_note), MenuProvider {
         return dateFormat.format(currentDate)
     }
 
-    private fun saveDiary(view: View){
+    private fun saveDiary(view: View) {
         val diaryTitle = binding.addNoteTitle.text.toString().trim()
-        val diaryDesc  = binding.addNoteDesc.text.toString().trim()
+        val diaryDesc = binding.addNoteDesc.text.toString().trim()
         val diaryDate = getCurrentDateAsString()
 
 
 
-        if(diaryTitle.isNotEmpty()){
+        if (diaryTitle.isNotEmpty()) {
             val diary = Diary(0, diaryTitle, diaryDesc, diaryDate)
             diaryViewModel.addDiary(diary)
 
             Toast.makeText(addNoteView.context, "Diary Saved", Toast.LENGTH_SHORT).show()
             view.findNavController().popBackStack(R.id.homeFragment, false)
-        }else{
-            Toast.makeText(addNoteView.context, "Please Enter Diary Title", Toast.LENGTH_SHORT).show()
+        } else {
+            Toast.makeText(addNoteView.context, "Please Enter Diary Title", Toast.LENGTH_SHORT)
+                .show()
         }
     }
 
@@ -77,11 +78,12 @@ class AddNoteFragment : Fragment(R.layout.fragment_add_note), MenuProvider {
     }
 
     override fun onMenuItemSelected(menuItem: MenuItem): Boolean {
-        return when(menuItem.itemId){
+        return when (menuItem.itemId) {
             R.id.saveMenu -> {
                 saveDiary(addNoteView)
                 true
             }
+
             else -> false
         }
     }

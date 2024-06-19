@@ -2,6 +2,8 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools">
 
+    <uses-permission android:name="android.permission.INTERNET" />
+
     <application
         android:allowBackup="true"
         android:dataExtractionRules="@xml/data_extraction_rules"
@@ -13,13 +15,22 @@
         android:theme="@style/Theme.EquilibrareApp"
         tools:targetApi="31">
         <activity
+            android:name=".ProfileActivity"
+            android:exported="false"
+            android:label="Profile"/>
+        <activity
+            android:name=".LandingActivty"
+            android:exported="false" />
+        <activity
             android:name=".SplashActivity"
-            android:exported="true">
+            android:exported="true"
+            android:theme="@style/Theme.App.Starting">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
+
             <meta-data
                 android:name="android.app.lib_name"
                 android:value="" />
@@ -33,11 +44,11 @@
         <activity
             android:name=".fragments.HasilAnalisis"
             android:exported="false"
-            android:label="@string/title_activity_hasil_analisis"
-            android:theme="@style/Theme.EquilibrareApp" />
+            android:label="@string/title_activity_hasil_analisis" />
         <activity
             android:name=".auth.ui.LoginActivity"
-            android:exported="false"/>
+            android:exported="false" />
+
         <meta-data
             android:name="preloaded_fonts"
             android:resource="@array/preloaded_fonts" />

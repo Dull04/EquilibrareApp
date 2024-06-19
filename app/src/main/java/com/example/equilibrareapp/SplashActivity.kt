@@ -19,14 +19,14 @@ class SplashActivity : AppCompatActivity() {
         setContentView(binding.root)
         preferenceHelper = PreferenceHelper(this)
         if (preferenceHelper.getStatusLogin()) {
-            navigateToMain()
+            navigateToLanding()
             return
         }
         navigateToLogin()
     }
 
-    private fun navigateToMain() {
-        val main = Intent(this@SplashActivity, MainActivity::class.java)
+    private fun navigateToLanding() {
+        val main = Intent(this@SplashActivity, LandingActivty::class.java)
         startActivity(main)
         finish()
     }
