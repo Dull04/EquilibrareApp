@@ -88,22 +88,33 @@ class EditNoteFragment : Fragment(R.layout.fragment_edit_note), MenuProvider {
             }
         }
         binding.ButtonHasilAnalisis.setOnClickListener {
+            showLoading(true)
+
             val diaryTitle = binding.editNoteTitle.text.toString()
             val diaryDesc = binding.editNoteDesc.text.toString()
             val predReq = PredictRequest(diaryTitle, diaryDesc)
-            val client = getApiService().predict("${preferenceHelper.getUserToken()}", predReq)
+            val token = "Bearer ${preferenceHelper.getUserToken().toString()}"
+
+            val client = getApiService().predict(token, predReq)
             client.enqueue(object : Callback<PredictResponse> {
                 override fun onResponse(
                     call: Call<PredictResponse>,
                     response: Response<PredictResponse>
                 ) {
+                    showLoading(false)
                     if (response.isSuccessful) {
                         val responseBody = response.body()
                         if (responseBody != null) {
-                            binding.tvResult.setText(responseBody.prediction.toString())
+                            val pred = "%.2f%%".format(responseBody.prediction * 100)
+                            val label = responseBody.label
+                            binding.tvResult.setText("Hasil prediksi menunjukan: $label \nDengan persentase: $pred")
                             binding.ButtonHasilAnalisis.visibility = View.GONE
                             binding.tvResult.visibility = View.VISIBLE
-                            Toast.makeText(requireContext(), "Prediksi Berhasil", Toast.LENGTH_SHORT)
+                            Toast.makeText(
+                                requireContext(),
+                                "Prediksi Berhasil",
+                                Toast.LENGTH_SHORT
+                            )
                                 .show()
                         } else {
                             Toast.makeText(
@@ -113,7 +124,7 @@ class EditNoteFragment : Fragment(R.layout.fragment_edit_note), MenuProvider {
                             ).show()
                         }
                     } else {
-                        Log.e("Predict","Token: ${preferenceHelper.getUserToken().toString()}")
+                        Log.e("Predict", "Token: ${preferenceHelper.getUserToken().toString()}")
                         Toast.makeText(
                             requireContext(),
                             "Prediksi Gagal: ${response.message()}",
@@ -123,6 +134,7 @@ class EditNoteFragment : Fragment(R.layout.fragment_edit_note), MenuProvider {
                 }
 
                 override fun onFailure(call: Call<PredictResponse>, t: Throwable) {
+                    showLoading(false)
                     Toast.makeText(
                         requireContext(),
                         "Prediksi Gagal: ${t.message.toString()}",
@@ -167,6 +179,16 @@ class EditNoteFragment : Fragment(R.layout.fragment_edit_note), MenuProvider {
     override fun onDestroy() {
         super.onDestroy()
         editNoteBinding = null
+    }
+
+    private fun showLoading(isLoading: Boolean) {
+        with(binding) {
+            progressBar.visibility = if (isLoading) View.VISIBLE else View.GONE
+            ButtonHasilAnalisis.isEnabled = !isLoading
+            editNoteTitle.isEnabled = !isLoading
+            editNoteDesc.isEnabled = !isLoading
+            editNoteFab.isEnabled = !isLoading
+        }
     }
 
 }
