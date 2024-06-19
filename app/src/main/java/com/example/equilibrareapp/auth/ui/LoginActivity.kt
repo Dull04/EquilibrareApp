@@ -6,14 +6,12 @@ import android.util.Log
 import android.view.View
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
-import com.example.equilibrareapp.MainActivity
+import com.example.equilibrareapp.LandingActivty
 import com.example.equilibrareapp.databinding.ActivityLoginBinding
 import com.example.equilibrareapp.preference.PreferenceHelper
-import com.example.equilibrareapp.service.ApiConfig
 import com.example.equilibrareapp.service.ApiConfig.Companion.getApiService
 import com.example.equilibrareapp.service.LoginEmailResponse
 import com.example.equilibrareapp.service.LoginRequest
-import com.example.equilibrareapp.service.RegisterResponse
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -83,11 +81,12 @@ class LoginActivity : AppCompatActivity() {
                 if (response.isSuccessful) {
                     val responseBody = response.body()
                     if (responseBody != null) {
-                        preferenceHelper.saveUserToken(responseBody.loginResult.idToken.toString())
+                        preferenceHelper.saveUserToken(responseBody.loginResult.idToken)
+                        preferenceHelper.saveUserUid(responseBody.loginResult.uid)
                         preferenceHelper.setStatusLogin(true)
                         Toast.makeText(this@LoginActivity, "Login Berhasil", Toast.LENGTH_SHORT)
                             .show()
-                        val main = Intent(this@LoginActivity, MainActivity::class.java)
+                        val main = Intent(this@LoginActivity, LandingActivty::class.java)
                         startActivity(main)
                         finishAffinity()
                     } else {
