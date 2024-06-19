@@ -6,14 +6,10 @@ import okhttp3.MultipartBody
 import okhttp3.RequestBody
 import retrofit2.Call
 import retrofit2.http.Body
-import retrofit2.http.Field
-import retrofit2.http.FormUrlEncoded
 import retrofit2.http.GET
 import retrofit2.http.Header
 import retrofit2.http.Multipart
-import retrofit2.http.PUT
 import retrofit2.http.Part
-import retrofit2.http.Query
 
 
 data class LoginResult(
@@ -78,12 +74,16 @@ data class LoginGoogleResponse(
     val loginResult: LoginResult
 )
 
-data class Logout(
+data class LogoutResponse(
     @field:SerializedName("message")
     val message: String
 )
 
-data class Profile(
+data class LogoutRequest(
+    val uid: String
+)
+
+data class ProfileResponse(
     @field:SerializedName("message")
     val message: String,
 
@@ -101,9 +101,9 @@ data class PredictResponse(
 )
 
 data class PredictRequest(
-    @SerializedName("Title")
+    @SerializedName("title")
     val title: String,
-    @SerializedName("Content")
+    @SerializedName("content")
     val content: String
 )
 
@@ -124,7 +124,17 @@ interface ApiService {
 
     @POST("/saveData")
     fun predict(
-        @Header("Authorization") Bearer: String,
-        @Body Predict: PredictRequest
+        @Header("Authorization") bearerToken: String,
+        @Body predict: PredictRequest
     ): Call<PredictResponse>
+
+    @POST("/auth/logout")
+    fun logout(
+        @Body request: LogoutRequest
+    ): Call<LogoutResponse>
+
+    @GET("/profile")
+    fun getProfile(
+        @Header("Authorization") bearerToken: String
+    ): Call<ProfileResponse>
 }
