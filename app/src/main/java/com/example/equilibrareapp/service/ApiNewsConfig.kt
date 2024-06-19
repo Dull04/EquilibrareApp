@@ -17,7 +17,7 @@ class ApiNewsConfig {
                 .addInterceptor(loggingInterceptor)
                 .build()
             val retrofit = Retrofit.Builder()
-                .baseUrl(BuildConfig.BASE_API)
+                .baseUrl(BuildConfig.NEWS_API)
                 .addConverterFactory(GsonConverterFactory.create())
                 .client(client)
                 .build()
