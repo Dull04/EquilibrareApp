@@ -39,7 +39,8 @@
         <EditText
             android:id="@+id/addNoteDesc"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
+            android:minHeight="300dp"
+            android:layout_height="wrap_content"
             android:hint="Enter the description"
             android:gravity="top"
             android:padding="12dp"
