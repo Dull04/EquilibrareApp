@@ -8,6 +8,7 @@ import retrofit2.Call
 import retrofit2.http.Body
 import retrofit2.http.GET
 import retrofit2.http.Header
+import retrofit2.http.Headers
 import retrofit2.http.Multipart
 import retrofit2.http.Part
 
@@ -107,6 +108,20 @@ data class PredictRequest(
     val content: String
 )
 
+data class GetDataResponse(
+    @SerializedName("content")
+    val content: String,
+    @SerializedName("title")
+    val title: String
+)
+
+data class UpdateProfileResponse(
+    @SerializedName("message")
+    val message: String,
+    @SerializedName("user")
+    val user: UserResult
+)
+
 interface ApiService {
     @Multipart
     @POST("/auth/signup")
@@ -137,4 +152,18 @@ interface ApiService {
     fun getProfile(
         @Header("Authorization") bearerToken: String
     ): Call<ProfileResponse>
+
+    @GET("/getData")
+    fun getData(
+    @Header("Authorization") bearerToken: String
+    ):Call<GetDataResponse>
+    @Multipart
+    @POST("/profile/update")
+    fun updateProfile(
+        @Header("Authorization") bearerToken: String,
+        @Part("email") email: RequestBody,
+        @Part("password") password: RequestBody,
+        @Part("displayName") displayName: RequestBody,
+        @Part photo: MultipartBody.Part
+    ):Call<UpdateProfileResponse>
 }

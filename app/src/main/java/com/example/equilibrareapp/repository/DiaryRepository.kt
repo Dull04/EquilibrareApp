@@ -1,6 +1,6 @@
 package com.example.equilibrareapp.repository
 
-import com.example.equilibrareapp.database.DiaryDatabase
+import com.example.equilibrareapp.database.diary.DiaryDatabase
 import com.example.equilibrareapp.model.Diary
 
 class DiaryRepository(private val db: DiaryDatabase) {

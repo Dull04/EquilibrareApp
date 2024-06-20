@@ -6,12 +6,19 @@ import android.util.Log
 import android.view.View
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
-import com.example.equilibrareapp.LandingActivty
+import androidx.lifecycle.ViewModelProvider
+import com.example.equilibrareapp.LandingActivity
+import com.example.equilibrareapp.database.user.UserDatabase
 import com.example.equilibrareapp.databinding.ActivityLoginBinding
+import com.example.equilibrareapp.model.User
 import com.example.equilibrareapp.preference.PreferenceHelper
+import com.example.equilibrareapp.repository.UserRepository
 import com.example.equilibrareapp.service.ApiConfig.Companion.getApiService
 import com.example.equilibrareapp.service.LoginEmailResponse
 import com.example.equilibrareapp.service.LoginRequest
+import com.example.equilibrareapp.service.ProfileResponse
+import com.example.equilibrareapp.viewmodel.UserViewModel
+import com.example.equilibrareapp.viewmodel.UserViewModelFactory
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -19,6 +26,7 @@ import retrofit2.Response
 class LoginActivity : AppCompatActivity() {
     private lateinit var binding: ActivityLoginBinding
     private lateinit var preferenceHelper: PreferenceHelper
+    private lateinit var userViewModel: UserViewModel
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -26,6 +34,13 @@ class LoginActivity : AppCompatActivity() {
         setContentView(binding.root)
         supportActionBar?.hide()
         preferenceHelper = PreferenceHelper(this)
+
+        // Inisialisasi ViewModel
+        val userDao = UserDatabase.getDatabase(application).userDao()
+        val repository = UserRepository(userDao)
+        val factory = UserViewModelFactory(repository)
+        userViewModel = ViewModelProvider(this, factory).get(UserViewModel::class.java)
+
         setupClickListener()
     }
 
@@ -69,7 +84,6 @@ class LoginActivity : AppCompatActivity() {
     }
 
     private fun login(email: String, password: String) {
-
         val loginRequest = LoginRequest(email, password)
         val client = getApiService().loginEmail(loginRequest)
         client.enqueue(object : Callback<LoginEmailResponse> {
@@ -81,40 +95,53 @@ class LoginActivity : AppCompatActivity() {
                 if (response.isSuccessful) {
                     val responseBody = response.body()
                     if (responseBody != null) {
-                        preferenceHelper.saveUserToken(responseBody.loginResult.idToken)
-                        preferenceHelper.saveUserUid(responseBody.loginResult.uid)
+                        val token = responseBody.loginResult.idToken
+                        preferenceHelper.saveUserToken(token)
                         preferenceHelper.setStatusLogin(true)
-                        Toast.makeText(this@LoginActivity, "Login Berhasil", Toast.LENGTH_SHORT)
-                            .show()
-                        val main = Intent(this@LoginActivity, LandingActivty::class.java)
-                        startActivity(main)
-                        finishAffinity()
+                        fetchUserProfile(token)
                     } else {
-                        Toast.makeText(
-                            this@LoginActivity,
-                            "Login Gagal: ${responseBody?.message ?: "Unknown error"}",
-                            Toast.LENGTH_SHORT
-                        ).show()
+                        Toast.makeText(this@LoginActivity, "Login Gagal: ${responseBody?.message ?: "Unknown error"}", Toast.LENGTH_SHORT).show()
                     }
                 } else {
-                    Toast.makeText(
-                        this@LoginActivity,
-                        "Login Gagal: ${response.message()}",
-                        Toast.LENGTH_SHORT
-                    ).show()
+                    Toast.makeText(this@LoginActivity, "Login Gagal: ${response.message()}", Toast.LENGTH_SHORT).show()
                 }
             }
 
             override fun onFailure(call: Call<LoginEmailResponse>, t: Throwable) {
                 showLoading(false)
-                Toast.makeText(this@LoginActivity, "Login Gagal: ${t.message}", Toast.LENGTH_SHORT)
-                    .show()
-                Log.e(TAG, "onFailure: ${t.message}")
+                Toast.makeText(this@LoginActivity, "Login Gagal: ${t.message}", Toast.LENGTH_SHORT).show()
+                Log.e("TAG", "onFailure: ${t.message}")
             }
         })
     }
 
-    companion object {
-        private const val TAG = "LoginActivity"
+    private fun fetchUserProfile(token: String) {
+        val client = getApiService().getProfile("Bearer $token")
+        client.enqueue(object : Callback<ProfileResponse> {
+            override fun onResponse(call: Call<ProfileResponse>, response: Response<ProfileResponse>) {
+                if (response.isSuccessful) {
+                    val userProfile = response.body()
+                    if (userProfile != null) {
+                        val user = User(
+                            uid = userProfile.user.uid,
+                            email = userProfile.user.email,
+                            displayName = userProfile.user.displayName,
+                            photoURL = userProfile.user.photoURL
+                        )
+                        userViewModel.insertUser(user)
+                        Toast.makeText(this@LoginActivity, "Login Berhasil", Toast.LENGTH_SHORT).show()
+                        val main = Intent(this@LoginActivity, LandingActivity::class.java)
+                        startActivity(main)
+                        finishAffinity()
+                    }
+                } else {
+                    Toast.makeText(this@LoginActivity, "Gagal mengambil profil user: ${response.message()}", Toast.LENGTH_SHORT).show()
+                }
+            }
+
+            override fun onFailure(call: Call<ProfileResponse>, t: Throwable) {
+                Toast.makeText(this@LoginActivity, "Gagal mengambil profil user: ${t.message}", Toast.LENGTH_SHORT).show()
+            }
+        })
     }
 }

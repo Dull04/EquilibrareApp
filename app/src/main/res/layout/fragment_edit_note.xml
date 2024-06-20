@@ -19,7 +19,7 @@
             android:layout_marginTop="16dp"
             android:fontFamily="@font/poppins"
             android:text="Edit Note"
-            android:textColor="@color/blue_dark"
+            android:textColor="@color/blue_light"
             android:textSize="24sp"
             android:textStyle="bold" />
 
@@ -33,6 +33,7 @@
             android:fontFamily="@font/poppins"
             android:gravity="center|start"
             android:hint="Enter the title"
+            android:enabled="false"
             android:maxLines="1"
             android:padding="12dp"
             android:textSize="20sp" />
@@ -46,6 +47,7 @@
             android:background="@drawable/blue_border"
             android:fontFamily="@font/poppins"
             android:gravity="top"
+            android:enabled="false"
             android:hint="Enter the description"
             android:minHeight="300dp"
             android:padding="12dp"
@@ -103,9 +105,22 @@
             android:layout_alignParentBottom="true"
             android:layout_marginEnd="20dp"
             android:layout_marginBottom="20dp"
-            android:backgroundTint="@color/blue_light"
             android:clickable="true"
             android:contentDescription="editFab"
+            android:src="@drawable/ic_edit_note"
+            android:tintMode="@color/white" />
+
+        <com.google.android.material.floatingactionbutton.FloatingActionButton
+            android:id="@+id/saveNoteFab"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentEnd="true"
+            android:layout_alignParentBottom="true"
+            android:layout_marginEnd="20dp"
+            android:layout_marginBottom="20dp"
+            android:clickable="true"
+            android:visibility="gone"
+            android:contentDescription="saveFab"
             android:src="@drawable/baseline_done_24"
             android:tintMode="@color/white" />
 
