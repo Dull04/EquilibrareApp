@@ -7,16 +7,6 @@ import androidx.room.Query
 import com.example.equilibrareapp.model.Article
 
 @Dao
-interface ArticleDao {
-    @Query("SELECT * FROM articles LIMIT 1")
-    fun getLatestArticle(): Article?
-
-    @Insert(onConflict = OnConflictStrategy.REPLACE)
-    fun insertArticle(article: Article)
-}
-
-
-@Dao
 interface ArticleDao{
     @Query("SELECT * FROM articles LIMIT 1")
     fun getLatestArticle(): Article?
