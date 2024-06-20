@@ -14,3 +14,13 @@ interface ArticleDao {
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     fun insertArticle(article: Article)
 }
+
+
+@Dao
+interface ArticleDao{
+    @Query("SELECT * FROM articles LIMIT 1")
+    fun getLatestArticle(): Article?
+
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    fun insertArticle(article: Article)
+}
