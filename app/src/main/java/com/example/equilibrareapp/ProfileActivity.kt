@@ -127,6 +127,7 @@ class ProfileActivity : AppCompatActivity() {
                             Toast.LENGTH_SHORT
                         )
                             .show()
+                        userViewModel.deleteUserByUid(preferenceHelper.getUserUid().toString())
                         val main = Intent(this@ProfileActivity, LoginActivity::class.java)
                         startActivity(main)
                         finishAffinity()
