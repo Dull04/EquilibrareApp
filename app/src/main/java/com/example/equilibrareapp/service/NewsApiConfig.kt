@@ -6,10 +6,10 @@ import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 
-class ApiNewsConfig {
+class NewsApiConfig {
     companion object {
 
-        fun getApiService(): ApiService {
+        fun getApiNewsService(): NewsApiService {
             val loggingInterceptor =
                 HttpLoggingInterceptor().setLevel(HttpLoggingInterceptor.Level.BODY)
 
@@ -21,7 +21,7 @@ class ApiNewsConfig {
                 .addConverterFactory(GsonConverterFactory.create())
                 .client(client)
                 .build()
-            return retrofit.create(ApiService::class.java)
+            return retrofit.create(NewsApiService::class.java)
         }
     }
 }

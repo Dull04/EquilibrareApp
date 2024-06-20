@@ -1,4 +1,4 @@
-package com.example.equilibrareapp.database
+package com.example.equilibrareapp.database.diary
 
 import androidx.lifecycle.LiveData
 import androidx.room.Dao

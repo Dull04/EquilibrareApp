@@ -1,5 +1,6 @@
 package com.example.equilibrareapp.auth.ui
 
+
 import android.Manifest
 import android.app.Activity
 import android.content.Intent
@@ -119,7 +120,7 @@ class RegisterActivity : AppCompatActivity() {
                 fileUri?.let {
                     Glide.with(this)
                         .load(it)
-                        .transform(CenterCrop(), RoundedCorners(16)) // Transformasi gambar
+                        .transform(CenterCrop(), RoundedCorners(16))
                         .into(binding.profileImage)
                     getFile = uriToFile(it, this)
                 }
@@ -178,7 +179,7 @@ class RegisterActivity : AppCompatActivity() {
                     "Register Gagal: ${t.message}",
                     Toast.LENGTH_SHORT
                 ).show()
-                Log.e(TAG, "onFailure: ${t.message}")
+                Log.e("TAG", "onFailure: ${t.message}")
             }
         })
     }
@@ -211,8 +212,4 @@ class RegisterActivity : AppCompatActivity() {
             btnRegister.isEnabled = !isLoading
         }
     }
-
-    companion object {
-        private const val TAG = "RegisterActivity"
     }
-}

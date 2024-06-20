@@ -11,6 +11,7 @@
         android:id="@+id/ci_profile"
         android:layout_width="200dp"
         android:layout_height="200dp"
+        android:layout_marginTop="20dp"
         android:clickable="true"
         android:contentDescription="photoProfile"
         android:focusable="true"
@@ -28,7 +29,7 @@
         android:layout_marginTop="10dp"
         android:background="@drawable/blue_border"
         android:textSize="18sp"
-        android:padding="8dp"
+        android:padding="10dp"
         app:layout_constraintTop_toBottomOf="@id/ci_profile"
         app:layout_constraintStart_toStartOf="parent"/>
     <TextView
@@ -40,15 +41,15 @@
         android:layout_marginTop="10dp"
         android:background="@drawable/blue_border"
         android:textSize="18sp"
-        android:padding="8dp"
+        android:padding="10dp"
         app:layout_constraintTop_toBottomOf="@id/tv_username"
         app:layout_constraintStart_toStartOf="parent"/>
 
     <LinearLayout
-        android:layout_width="0dp"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
-        android:layout_margin="20dp"
+        android:layout_marginTop="30dp"
         app:layout_constraintTop_toBottomOf="@id/tv_email"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
@@ -61,16 +62,17 @@
             android:elevation="6dp"
             android:layout_height="wrap_content"
             android:background="@drawable/blue_border"
+            android:visibility="gone"
             android:text="Ganti foto profil"/>
 
         <Button
             android:id="@+id/btn_logout"
-            android:layout_marginStart="5dp"
+            android:layout_marginStart="0dp"
             android:layout_width="0dp"
             android:layout_weight="1"
+            android:layout_margin="15dp"
             android:layout_height="match_parent"
-            android:textColor="@color/blue_light"
-            android:background="@drawable/unfilled_button"
+            android:background="@drawable/filled_button"
             android:text="logout"/>
 
     </LinearLayout>

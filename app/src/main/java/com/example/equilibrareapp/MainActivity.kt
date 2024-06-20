@@ -1,13 +1,9 @@
 package com.example.equilibrareapp
 
 import android.os.Bundle
-import android.widget.Button
-import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
-import androidx.core.view.ViewCompat
-import androidx.core.view.WindowInsetsCompat
 import androidx.lifecycle.ViewModelProvider
-import com.example.equilibrareapp.database.DiaryDatabase
+import com.example.equilibrareapp.database.diary.DiaryDatabase
 import com.example.equilibrareapp.repository.DiaryRepository
 import com.example.equilibrareapp.viewmodel.DiaryViewModel
 import com.example.equilibrareapp.viewmodel.DiaryViewModelFactory

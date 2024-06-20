@@ -26,7 +26,7 @@ class SplashActivity : AppCompatActivity() {
     }
 
     private fun navigateToLanding() {
-        val main = Intent(this@SplashActivity, LandingActivty::class.java)
+        val main = Intent(this@SplashActivity, LandingActivity::class.java)
         startActivity(main)
         finish()
     }

@@ -10,6 +10,7 @@ import android.view.MenuItem
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
+import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.MenuHost
 import androidx.core.view.MenuProvider
 import androidx.fragment.app.Fragment
@@ -75,6 +76,15 @@ class EditNoteFragment : Fragment(R.layout.fragment_edit_note), MenuProvider {
         binding.editNoteDesc.setText(currentDiary.noteDesc)
 
         binding.editNoteFab.setOnClickListener {
+            with(binding) {
+                editNoteTitle.isEnabled = true
+                editNoteDesc.isEnabled = true
+                editNoteFab.visibility = View.GONE
+                saveNoteFab.visibility = View.VISIBLE
+            }
+        }
+
+        binding.saveNoteFab.setOnClickListener {
             val diaryTitle = binding.editNoteTitle.text.toString().trim()
             val diaryDesc = binding.editNoteDesc.text.toString().trim()
             val diaryDate = getCurrentDateAsString()
@@ -82,13 +92,25 @@ class EditNoteFragment : Fragment(R.layout.fragment_edit_note), MenuProvider {
             if (diaryTitle.isNotEmpty()) {
                 val diary = Diary(currentDiary.id, diaryTitle, diaryDesc, diaryDate)
                 diaryViewModel.updateDiary(diary)
-                view.findNavController().popBackStack(R.id.homeFragment, false)
+//                view.findNavController().popBackStack(R.id.homeFragment, false)
             } else {
                 Toast.makeText(context, "Please Enter Diary Title", Toast.LENGTH_SHORT).show()
+            }
+            with(binding) {
+                editNoteTitle.isEnabled = false
+                editNoteDesc.isEnabled = false
+                editNoteFab.visibility = View.VISIBLE
+                saveNoteFab.visibility = View.GONE
             }
         }
         binding.ButtonHasilAnalisis.setOnClickListener {
             showLoading(true)
+            if(!isSaved()){
+                with(binding){
+                    editNoteTitle.setText(currentDiary.noteTitle)
+                    editNoteDesc.setText((currentDiary.noteDesc))
+                }
+            }
 
             val diaryTitle = binding.editNoteTitle.text.toString()
             val diaryDesc = binding.editNoteDesc.text.toString()
@@ -145,6 +167,10 @@ class EditNoteFragment : Fragment(R.layout.fragment_edit_note), MenuProvider {
                 }
             })
         }
+    }
+
+    private fun isSaved(): Boolean{
+        return binding.saveNoteFab.visibility == View.GONE
     }
 
     private fun deleteDiary() {

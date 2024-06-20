@@ -11,9 +11,9 @@ class PreferenceHelper(context: Context) {
     private val KEY_USER = "user"
     private val IS_LOGGED_IN = "login"
     private val UID = "UID"
+    private val KEY_LAST_FETCH_DATE = "last_fetch_date"
 
     val preferences: SharedPreferences
-    private val gson = Gson()
 
     init {
         preferences = context.getSharedPreferences(PREF_NAME, Context.MODE_PRIVATE)
@@ -43,18 +43,12 @@ class PreferenceHelper(context: Context) {
         return preferences.getString(UID, "")
     }
 
-    fun saveUser(user: User) {
-        val json = gson.toJson(user)
-        preferences.edit().putString(KEY_USER, json).apply()
+    fun saveLastFetchDate(date: String) {
+        preferences.edit().putString(KEY_LAST_FETCH_DATE, date).apply()
     }
 
-    fun getUser(): User? {
-        val json = preferences.getString(KEY_USER, null)
-        return if (json != null) {
-            gson.fromJson(json, User::class.java)
-        } else {
-            null
-        }
+    fun getLastFetchDate(): String? {
+        return preferences.getString(KEY_LAST_FETCH_DATE, null)
     }
 
     fun clearPref() {

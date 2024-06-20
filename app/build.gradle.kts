@@ -30,7 +30,7 @@ android {
         buildConfigField(
             "String",
             "NEWS_API",
-            "\"https://newsapi.org/v2\""
+            "\"https://newsapi.org/\""
         )
 
         buildConfigField(
