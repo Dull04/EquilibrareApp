@@ -97,6 +97,7 @@ class LoginActivity : AppCompatActivity() {
                     if (responseBody != null) {
                         val token = responseBody.loginResult.idToken
                         preferenceHelper.saveUserToken(token)
+                        preferenceHelper.saveUserUid(responseBody.loginResult.uid)
                         preferenceHelper.setStatusLogin(true)
                         fetchUserProfile(token)
                     } else {
