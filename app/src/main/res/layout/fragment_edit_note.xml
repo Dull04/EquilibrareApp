@@ -67,7 +67,7 @@
                 android:background="@drawable/blue_border"
                 android:fontFamily="@font/poppins"
                 android:padding="12dp"
-                android:text="Hasil Analisis Anxiety"
+                android:text="Anxiety Analysis Result"
                 android:textSize="20sp"
                 android:visibility="visible" />
 
