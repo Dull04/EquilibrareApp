@@ -9,6 +9,7 @@ import com.example.equilibrareapp.model.User
 @Dao
 interface UserDao {
     @Insert(onConflict = OnConflictStrategy.REPLACE)
+    suspend fun insertUser(user: User)
 
     @Query("SELECT * FROM users WHERE uid = :uid")
     suspend fun getUserByUid(uid: String): User?
