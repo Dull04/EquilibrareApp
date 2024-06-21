@@ -90,6 +90,7 @@ class RegisterActivity : AppCompatActivity() {
                     val displayNameReq =
                         displayName.toRequestBody("text/plain".toMediaTypeOrNull())
                     uploadImage(emailReq, passwordReq, displayNameReq)
+                    showLoading(false)
                 }
             }
         }
